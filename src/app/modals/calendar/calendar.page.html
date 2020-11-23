@@ -1,0 +1,47 @@
+<ion-toolbar color="primary" class="align-text-center">
+  <ion-buttons slot="start">
+    <ion-button (click)="close()">
+      <ion-icon name="close" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-title>{{ viewTitle }}</ion-title>
+  <ion-buttons slot="end">
+    <ion-button (click)="save()">
+      <ion-icon name="checkmark" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content>
+  <ion-row>
+    <!-- Move back one screen of the slides -->
+    <ion-col size="3">
+      <ion-button fill="clear" (click)="back()">
+        <ion-icon name="arrow-back" slot="icon-only" color="green"></ion-icon>
+      </ion-button>
+    </ion-col>
+
+    <ion-col size="6" class="ion-text-center center-vertical">
+      <ion-text color="medium">{{ selectedDay }}</ion-text>
+    </ion-col>
+
+    <!-- Move forward one screen of the slides -->
+    <ion-col size="3">
+      <ion-button fill="clear" (click)="next()">
+        <ion-icon name="arrow-forward" slot="icon-only" color="green"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <calendar *ngIf="modalReady" style="white-space: nowrap;" [eventSource]="calendar.events" [calendarMode]="calendar.mode"
+    [currentDate]="calendar.currentDate" (onTitleChanged)="onViewTitleChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)" [markDisabled]="markDisabled" [monthviewDisplayEventTemplate]="template">
+  </calendar>
+  <ng-template #template let-view="view" let-row="row" let-col="col">
+    <div [class.with-event]="view.dates[row*7+col].events.length">
+      {{view.dates[row*7+col].label}}
+      <!--<div class="indicator-container"> this code is used to add events highliter : BW could be have 300 events so it's commented
+        <div class="event-indicator" *ngFor="let e of view.dates[row*7+col].events"></div
+      </div>>-->
+    </div>
+  </ng-template>
+</ion-content>
